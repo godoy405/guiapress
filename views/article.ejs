@@ -1,0 +1,33 @@
+<%- include('partials/header') -%>
+<%- include('partials/homenavbar') -%>
+
+<body>
+    <%
+        const decodeHtml = str => (str || '')
+            .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&aacute;/g, 'á').replace(/&eacute;/g, 'é')
+            .replace(/&iacute;/g, 'í').replace(/&oacute;/g, 'ó').replace(/&uacute;/g, 'ú')
+            .replace(/&agrave;/g, 'à').replace(/&acirc;/g, 'â').replace(/&ecirc;/g, 'ê')
+            .replace(/&ocirc;/g, 'ô').replace(/&atilde;/g, 'ã').replace(/&otilde;/g, 'õ')
+            .replace(/&ccedil;/g, 'ç').replace(/&Aacute;/g, 'Á').replace(/&Eacute;/g, 'É')
+            .replace(/&Iacute;/g, 'Í').replace(/&Oacute;/g, 'Ó').replace(/&Uacute;/g, 'Ú')
+            .replace(/&Acirc;/g, 'Â').replace(/&Ecirc;/g, 'Ê').replace(/&Ocirc;/g, 'Ô')
+            .replace(/&Atilde;/g, 'Ã').replace(/&Otilde;/g, 'Õ').replace(/&Ccedil;/g, 'Ç');
+
+        const title = decodeHtml(article.title);
+        const body = decodeHtml(article.body);
+    %>
+    <div class="container py-5">
+        <div class=" card">
+            <div class="card-header">
+                <h2><%= title %></h2>
+            </div>
+            <div class="card-body">
+                <%- body %>
+            </div>
+
+        </div>
+    </div>
+</body>
+
+<%- include('partials/footer') -%>

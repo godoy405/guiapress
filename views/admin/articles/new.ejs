@@ -1,0 +1,42 @@
+<%- include('../../partials/header') -%>
+<%- include('../../partials/navbar') -%>
+<br>
+<div class="container">    
+    <div class="card">
+        <div class="card-header">
+            <h2>Novo artigo</h2> 
+        </div> 
+        <div class="card-body">   
+            <form method="POST" action="/articles/save" onsubmit="if (typeof tinymce !== 'undefined') tinymce.triggerSave();">
+                <input class="form-control mb-3" type="text" name="title" placeholder="Defina o título do artigo" minlength="3">
+                <textarea class="form-control mb-3" placeholder="Escreva seu artigo aqui!" name="body" id="article"></textarea>
+                <select name="category" class="form-control mb-3" required>
+                    <option value="">Selecione uma categoria</option>
+                    <% categories.forEach((category) => { %>
+                        <option value="<%= category.id %>"><%= category.title %></option>
+                    <% }) %>
+                </select>
+                <button class="btn btn-success" type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include('../../partials/footer') -%>
+
+<script src="https://cdn.tiny.cloud/1/o8489xmgp07bcl6tc6q00zt1ornnqkwo27m8k56u5k6vzjt5/tinymce/8/tinymce.min.js" referrerpolicy="origin"></script>
+
+<script>
+    tinymce.init({
+      selector: '#article',
+      plugins: 'lists link table code help wordcount',
+      toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | outdent indent',
+      language: 'pt_BR',
+      height: 400,
+      setup: function (editor) {
+        editor.on('submit', function () {
+          editor.save();
+        });
+      }
+    });
+  </script>   
+        

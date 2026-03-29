@@ -1,0 +1,20 @@
+{
+  "name": "guiapress",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "Gilberto Neri Godoy",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ejs": "^5.0.1",
+    "express": "^5.2.1",
+    "mysql2": "^3.19.0",
+    "sequelize": "^6.37.7",
+    "slugify": "^1.6.6",
+    "tinymce": "^8.3.2"
+  }
+}

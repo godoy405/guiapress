@@ -1,0 +1,82 @@
+<%- include('partials/header') -%>
+<%- include('partials/homenavbar') -%>
+
+<body>
+    <%
+        const accentClasses = ['accent-0', 'accent-1', 'accent-2', 'accent-3', 'accent-4', 'accent-5', 'accent-6', 'accent-7', 'accent-8', 'accent-9'];
+        const decodeHtml = str => str
+            .replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&aacute;/g, 'á').replace(/&eacute;/g, 'é')
+            .replace(/&iacute;/g, 'í').replace(/&oacute;/g, 'ó').replace(/&uacute;/g, 'ú')
+            .replace(/&agrave;/g, 'à').replace(/&acirc;/g, 'â').replace(/&ecirc;/g, 'ê')
+            .replace(/&ocirc;/g, 'ô').replace(/&atilde;/g, 'ã').replace(/&otilde;/g, 'õ')
+            .replace(/&ccedil;/g, 'ç').replace(/&Aacute;/g, 'Á').replace(/&Eacute;/g, 'É')
+            .replace(/&Iacute;/g, 'Í').replace(/&Oacute;/g, 'Ó').replace(/&Uacute;/g, 'Ú')
+            .replace(/&Acirc;/g, 'Â').replace(/&Ecirc;/g, 'Ê').replace(/&Ocirc;/g, 'Ô')
+            .replace(/&Atilde;/g, 'Ã').replace(/&Otilde;/g, 'Õ').replace(/&Ccedil;/g, 'Ç')
+            .replace(/&#\d+;/g, '');
+    %>
+    <style>
+        .card-accent { border: none !important; overflow: hidden; border-radius: 12px !important; }
+        .card-header-band { padding: 1.2rem 1.25rem 0.9rem; }
+        .card-header-band .badge-cat {
+            background-color: rgba(255,255,255,0.28);
+            color: #fff;
+            font-size: 0.73rem;
+            padding: 0.35em 0.8em;
+            border-radius: 50px;
+        }
+        .card-header-band h5 { color: #fff; font-weight: 700; margin: 0.5rem 0 0; font-size: 1.05rem; }
+        .btn-card { color: #fff; border: none; border-radius: 8px; padding: 0.45rem 1.1rem; font-size: 0.88rem; }
+        .btn-card:hover { opacity: 0.85; color: #fff; }
+        .card-footer-area { font-size: 0.8rem; color: #666; padding: 0.65rem 1.25rem; border-top: 1px solid rgba(0,0,0,0.09); }
+
+        .accent-0 .card-header-band, .accent-0 .btn-card { background-color: #4361ee; } .accent-0, .accent-0 .card-body-area, .accent-0 .card-footer-area { background-color: #ccd5ff; }
+        .accent-1 .card-header-band, .accent-1 .btn-card { background-color: #f72585; } .accent-1, .accent-1 .card-body-area, .accent-1 .card-footer-area { background-color: #f9c5df; }
+        .accent-2 .card-header-band, .accent-2 .btn-card { background-color: #06d6a0; } .accent-2, .accent-2 .card-body-area, .accent-2 .card-footer-area { background-color: #baf5e5; }
+        .accent-3 .card-header-band, .accent-3 .btn-card { background-color: #fb8500; } .accent-3, .accent-3 .card-body-area, .accent-3 .card-footer-area { background-color: #ffe0b8; }
+        .accent-4 .card-header-band, .accent-4 .btn-card { background-color: #7209b7; } .accent-4, .accent-4 .card-body-area, .accent-4 .card-footer-area { background-color: #dcc2f0; }
+        .accent-5 .card-header-band, .accent-5 .btn-card { background-color: #ef233c; } .accent-5, .accent-5 .card-body-area, .accent-5 .card-footer-area { background-color: #f8bec6; }
+        .accent-6 .card-header-band, .accent-6 .btn-card { background-color: #3a86ff; } .accent-6, .accent-6 .card-body-area, .accent-6 .card-footer-area { background-color: #c6dcff; }
+        .accent-7 .card-header-band, .accent-7 .btn-card { background-color: #118ab2; } .accent-7, .accent-7 .card-body-area, .accent-7 .card-footer-area { background-color: #bfe6f2; }
+        .accent-8 .card-header-band, .accent-8 .btn-card { background-color: #06a77d; } .accent-8, .accent-8 .card-body-area, .accent-8 .card-footer-area { background-color: #baeedd; }
+        .accent-9 .card-header-band, .accent-9 .btn-card { background-color: #d62839; } .accent-9, .accent-9 .card-body-area, .accent-9 .card-footer-area { background-color: #f4bcc2; }
+    </style>
+
+    <div class="container py-5">
+        <h2 class="mb-4 fw-bold border-bottom pb-2">Últimos Artigos</h2>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            <% articles.forEach((article, i) => {
+                const accentClass = accentClasses[i % accentClasses.length];
+                const plainTitle = article.title ? decodeHtml(article.title) : '';
+                const plainBody = article.body ? decodeHtml(article.body.replace(/<[^>]*>/g, '')).trim().substring(0, 120) + '...' : '';
+            %>
+            <div class="col">
+                <div class="card card-accent <%= accentClass %> h-100 shadow-sm">
+                    <div class="card-header-band">
+                        <span class="badge badge-cat"><%=  article.category ? article.category : 'Geral' %></span>
+                        <h5><%= plainTitle %></h5>
+                    </div>
+                    <div class="card-body-area d-flex flex-column flex-grow-1 p-3">
+                        <p class="text-muted flex-grow-1 mb-3" style="font-size:0.9rem"><%= plainBody %></p>
+                        <div>
+                            <a href="/articles/<%= article.slug %>" class="btn btn-card">
+                                Ler mais &rarr;
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-footer-area">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="currentColor" class="me-1" viewBox="0 0 16 16">
+                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v1h14V3a1 1 0 0 0-1-1H2zm13 3H1v9a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V5z"/>
+                        </svg>
+                        <%= article.createdAt ? new Date(article.createdAt).toLocaleDateString('pt-BR') : '' %>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
+</body>
+
+
+<%- include('partials/footer') -%>
