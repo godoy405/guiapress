@@ -1,0 +1,25 @@
+<%- include('../../partials/header') -%>
+<%- include('../../partials/navbar') -%>
+
+<div class="container">
+    <div class="card mt-5">
+        <div class="card-header">
+            <h2>Cadastro de Usuário</h2>
+        </div>
+        <div class="card-body">
+            <% if (emailExists) { %>
+                <div class="alert alert-warning" role="alert">
+                    Este email já foi cadastrado.
+                </div>
+            <% } %>
+            <form method="POST" action="/admin/users/create">
+                <input class="form-control mb-3" type="email" name="email" placeholder="Email">
+                <input class="form-control mb-3" type="password" name="password" placeholder="Senha">
+                <button class="btn btn-success" type="submit">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<%- include('../../partials/footer') -%>

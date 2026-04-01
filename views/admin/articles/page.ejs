@@ -1,5 +1,5 @@
-<%- include('partials/header') -%>
-<%- include('partials/homenavbar') -%>
+<%- include('../../partials/header') -%>
+<%- include('../../partials/homenavbar') -%>
 
 <body>
     <%
@@ -56,7 +56,7 @@
     <div class="container py-5">
         <h2 class="mb-4 fw-bold border-bottom pb-2">Últimos Artigos</h2>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-            <% articles.forEach((article, i) => {
+            <% result.articles.rows.forEach((article, i) => {
                 const accentClass = accentClasses[i % accentClasses.length];
                 const plainTitle = article.title ? decodeHtml(article.title) : '';
                 const plainBody = article.body ? decodeHtml(article.body.replace(/<[^>]*>/g, '')).trim().substring(0, 120) + '...' : '';
@@ -83,16 +83,31 @@
                     </div>
                 </div>
             </div>
-        <% }) %>
+            <% }) %>
         </div>
         <div class="row pager-wrapper">
-            <div class="col-12 d-flex justify-content-end align-items-center">
-                <a class="btn btn-primary pager-btn" href="/articles/page/2">Próxima &rarr;</a>
+            <div class="col-12 d-flex justify-content-between align-items-center">
+                <div>
+                    <% if (result.page > 2) { %>
+                        <a class="btn btn-outline-primary pager-btn" href="/articles/page/<%= result.page - 1 %>">&larr; Anterior</a>
+                    <% } else if (result.page == 2) { %>
+                        <a class="btn btn-outline-primary pager-btn" href="/">&larr; Anterior</a>
+                    <% } %>
+                </div>
+
+                <span class="text-muted small">Página <%= result.page %></span>
+
+                <div>
+                    <% if (result.next) { %>
+                        <a class="btn btn-primary pager-btn" href="/articles/page/<%= result.page + 1 %>">Próxima &rarr;</a>
+                    <% } %>
+                </div>
             </div>
             <hr class="mt-4">
         </div>
+        <hr>   
     </div>
 </body>
 
 
-<%- include('partials/footer') -%>
+<%- include('../../partials/footer') -%>

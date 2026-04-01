@@ -1,0 +1,62 @@
+<%- include('../../partials/header') -%>
+<%- include('../../partials/navbar') -%>
+
+<style>
+    .users-card {
+        border: none;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    }
+    .users-card-header {
+        background: linear-gradient(90deg, #3a86ff, #4361ee);
+        color: #fff;
+    }
+    .users-table thead th {
+        background-color: #f1f5ff;
+        color: #3b4a77;
+        border-bottom-width: 0;
+    }
+    .users-table tbody tr:hover {
+        background-color: #f8faff;
+    }
+    .id-badge {
+        background-color: #4361ee;
+        color: #fff;
+        border-radius: 999px;
+        padding: 0.3rem 0.65rem;
+        font-weight: 600;
+        font-size: 0.78rem;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="card users-card">
+        <div class="card-header users-card-header d-flex justify-content-between align-items-center py-3">
+            <h2 class="h4 m-0">Usuários</h2>
+            <a class="btn btn-light btn-sm fw-semibold" href="/admin/users/create">+ Novo usuário</a>
+        </div>
+
+        <div class="card-body p-0">
+            <table class="table users-table table-hover m-0 align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col" class="ps-4">Id</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(user => { %>
+                        <tr>
+                            <td class="ps-4"><span class="id-badge">#<%= user.id %></span></td>
+                            <td class="fw-semibold text-secondary"><%= user.email %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+pli</div>
+
+
+<%- include('../../partials/footer') -%>

@@ -1,39 +1,80 @@
 <%- include('../../partials/header') -%>
 <%- include('../../partials/navbar') -%>
 
-<div class="container">
-    <hr>
-    <h2>Artigos</h2>
-    <a class="btn btn-success" href="/admin/articles/new">Novo artigo</a>
-    <hr>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Título</th>
-                <th scope="col">Slug</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% articles.forEach(article => { %>
-                <tr>
-                    <td><%= article.id %></td>
-                    <td><%= article.title %></td>
-                    <td><%= article.slug %></td>
-                    <td><%= article.category ? article.category.title : "-" %></td>
-                    <td>
-                        <form action="/articles/delete" method="POST" style="display: inline;" onsubmit="confirmarDelecao(event, this)">
-                            <input type="hidden" name="id" value="<%= article.id %>">
-                            <button class="btn btn-danger">Excluir</button>
-                        </form>
-                        
-                    </td>
-                </tr>
-            <% }) %>
-        </tbody>
-    </table>
+<style>
+    .admin-card {
+        border: none;
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08);
+    }
+    .admin-card-header {
+        background: linear-gradient(90deg, #3a86ff, #4361ee);
+        color: #fff;
+    }
+    .admin-table thead th {
+        background-color: #f1f5ff;
+        color: #3b4a77;
+        border-bottom-width: 0;
+    }
+    .admin-table tbody tr:hover { background-color: #f8faff; }
+    .id-badge {
+        background-color: #4361ee;
+        color: #fff;
+        border-radius: 999px;
+        padding: 0.3rem 0.65rem;
+        font-weight: 600;
+        font-size: 0.78rem;
+    }
+    .slug-badge {
+        background-color: #eef2ff;
+        color: #4f5d89;
+        border-radius: 999px;
+        padding: 0.25rem 0.6rem;
+        font-size: 0.78rem;
+    }
+</style>
+
+<div class="container py-4">
+    <div class="card admin-card">
+        <div class="card-header admin-card-header d-flex justify-content-between align-items-center py-3">
+            <h2 class="h4 m-0">Artigos</h2>
+            <a class="btn btn-light btn-sm fw-semibold" href="/admin/articles/new">+ Novo artigo</a>
+        </div>
+
+        <div class="card-body p-0">
+            <table class="table admin-table table-hover m-0 align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col" class="ps-4">Id</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% articles.forEach(article => { %>
+                        <tr>
+                            <td class="ps-4"><span class="id-badge">#<%= article.id %></span></td>
+                            <td class="fw-semibold text-secondary"><%= article.title %></td>
+                            <td><span class="slug-badge"><%= article.slug %></span></td>
+                            <td><%= article.category ? article.category.title : "-" %></td>
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+                                <a href="/admin/articles/edit/<%= article.id %>" class="btn btn-sm btn-outline-warning">Editar</a>
+                                <form action="/articles/delete" method="POST" class="m-0" onsubmit="confirmarDelecao(event, this)">
+                                    <input type="hidden" name="id" value="<%= article.id %>">
+                                    <button class="btn btn-sm btn-outline-danger">Excluir</button>
+                                </form>
+                                </div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <%- include('../../partials/footer') -%>
