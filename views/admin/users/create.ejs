@@ -1,22 +1,49 @@
 <%- include('../../partials/header') -%>
 <%- include('../../partials/navbar') -%>
 
-<div class="container">
-    <div class="card mt-5">
-        <div class="card-header">
-            <h2>Cadastro de Usuário</h2>
-        </div>
-        <div class="card-body">
-            <% if (emailExists) { %>
-                <div class="alert alert-warning" role="alert">
-                    Este email já foi cadastrado.
+<style>
+    .auth-wrap { padding: 2rem 0; }
+    .auth-card {
+        border: none;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.12);
+    }
+    .auth-card-header {
+        background: linear-gradient(90deg, #06d6a0, #118ab2);
+        color: #fff;
+        padding: 1.25rem 1.5rem;
+    }
+    .auth-card-body { padding: 1.5rem; background-color: #fff; }
+    .auth-btn {
+        background: linear-gradient(90deg, #06d6a0, #118ab2);
+        border: none;
+        color: #fff;
+        font-weight: 600;
+    }
+    .auth-btn:hover { opacity: 0.92; color: #fff; }
+</style>
+
+<div class="container auth-wrap">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="card auth-card mt-3">
+                <div class="auth-card-header">
+                    <h2 class="h4 fw-bold m-0">Cadastro de Usuário</h2>
                 </div>
-            <% } %>
-            <form method="POST" action="/admin/users/create">
-                <input class="form-control mb-3" type="email" name="email" placeholder="Email">
-                <input class="form-control mb-3" type="password" name="password" placeholder="Senha">
-                <button class="btn btn-success" type="submit">Cadastrar</button>
-            </form>
+                <div class="auth-card-body">
+                    <% if (emailExists) { %>
+                        <div class="alert alert-warning" role="alert">
+                            Este email já foi cadastrado.
+                        </div>
+                    <% } %>
+                    <form method="POST" action="/admin/users/create">
+                        <input class="form-control mb-3" type="email" name="email" placeholder="Email" required>
+                        <input class="form-control mb-3" type="password" name="password" placeholder="Senha" required>
+                        <button class="btn auth-btn w-100" type="submit">Cadastrar</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </div>

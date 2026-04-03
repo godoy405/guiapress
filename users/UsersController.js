@@ -5,6 +5,7 @@ const bcrypt = require("bcryptjs");
 const Sequelize = require("sequelize");
 
 router.get("/admin/users", (req, res) => {
+    
     User.findAll().then(users => {
         res.render("admin/users/index", { users: users });
     });
@@ -48,5 +49,50 @@ router.post("/admin/users/create", (req, res) => {
         res.redirect("/admin/users/create");
     });
 });
+
+router.get("/login", (req, res) => {
+    res.render("admin/users/login", {
+        loginError: req.query.error === "invalid_credentials"
+    });
+});
+
+router.post("/authenticate", (req, res) => {
+    const email = (req.body.email || "").trim().toLowerCase();
+    const password = (req.body.password || "").trim();
+
+    if (!email || !password) {
+        return res.redirect("/login?error=invalid_credentials");
+    }
+
+    User.findOne({
+        where: Sequelize.where(
+            Sequelize.fn("LOWER", Sequelize.col("email")),
+            email
+        )
+    }).then(user => {
+        if (user != undefined) {
+            const correct = bcrypt.compareSync(password, user.password);
+
+            if (correct) {
+                req.session.user = {
+                    id: user.id,
+                    email: user.email
+                };
+                return res.redirect("/admin/articles");
+            }
+
+            return res.redirect("/login?error=invalid_credentials");
+        }
+
+        return res.redirect("/login?error=invalid_credentials");
+    }).catch(() => {
+        res.redirect("/login?error=invalid_credentials");
+    });
+}); 
+
+router.get("/logout", (req, res) => {
+    req.session.user = undefined;
+    res.redirect("/");
+})
 
 module.exports = router;

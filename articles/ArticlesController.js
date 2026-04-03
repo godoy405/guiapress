@@ -3,6 +3,7 @@ const router = express.Router();
 const Category = require('../categories/Category');
 const Article = require("./Article");
 const slugify = require("slugify");
+const adminAuth = require("../middlewares/adminAuth");
 
 function extractTextFromHtml(html) {
     return html
@@ -13,7 +14,7 @@ function extractTextFromHtml(html) {
         .trim();
 }
 
-router.get("/admin/articles", (req, res) => {
+router.get("/admin/articles", adminAuth, (req, res) => {
     Article.findAll({
         order: [["id", "DESC"]],
         include: [{ model: Category, as: "category" }]
@@ -25,7 +26,7 @@ router.get("/admin/articles", (req, res) => {
     });
 });
 
-router.get("/admin/articles/new", (req, res) => {
+router.get("/admin/articles/new", adminAuth, (req, res) => {
     Category.findAll().then(categories => {
         res.render("admin/articles/new", { categories: categories });
     }).catch(error => {
@@ -34,7 +35,7 @@ router.get("/admin/articles/new", (req, res) => {
     });
 });
 
-router.post("/articles/save", (req, res) => {
+router.post("/articles/save", adminAuth, (req, res) => {
     let title = (req.body.title || "").trim();
     const body = (req.body.body || "").trim();
     const categoryId = req.body.category ? parseInt(req.body.category, 10) : NaN;
@@ -67,7 +68,7 @@ router.post("/articles/save", (req, res) => {
     });
 });
 
-router.post("/articles/delete", (req, res) => {
+router.post("/articles/delete", adminAuth, (req, res) => {
     var id = req.body.id;
     if (id != undefined) {
         if (!isNaN(id)) {
@@ -86,7 +87,7 @@ router.post("/articles/delete", (req, res) => {
     }
 });
 
-router.get("/admin/articles/edit/:id", (req, res) => {
+router.get("/admin/articles/edit/:id", adminAuth, (req, res) => {
     const id = req.params.id;
 
     if (isNaN(id)) {
@@ -106,7 +107,7 @@ router.get("/admin/articles/edit/:id", (req, res) => {
     });
 });
 
-router.post("/articles/update", (req, res) => {
+router.post("/articles/update", adminAuth, (req, res) => {
     const id = parseInt(req.body.id, 10);
     let title = (req.body.title || "").trim();
     const body = (req.body.body || "").trim();
@@ -153,7 +154,7 @@ router.post("/articles/update", (req, res) => {
     });
 });
 
-router.get("/articles/page/:num",(req,res) => {
+router.get("/articles/page/:num", (req,res) => {
     const page = parseInt(req.params.num, 10) || 1;
     const limit = 6;
     const offset = page <= 1 ? 0 : (page - 1) * limit;
